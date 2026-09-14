@@ -44,6 +44,7 @@
             <header class="top-header">
                 <div class="search-box">
                     <i class="fa-solid fa-border-top-left search-icon"></i>
+                    <label for="search-input" class="sr-only">Tìm kiếm hình ảnh</label>
                     <input type="text" 
                            id="search-input"
                            aria-label="Tìm kiếm hình ảnh" 
@@ -217,7 +218,6 @@
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
-                   <!-- Ảnh 13 -->
                     <div class="grid-card">
                         <img class="preview" 
                              tabindex="0"
@@ -246,7 +246,7 @@
     </div>
 
     <div id="fullscreenModal" class="fullscreen-modal">
-        <span class="close-modal" id="closeModal" aria-label="Đóng hình ảnh">&times;</span>
+        <button type="button" class="close-modal" id="closeModal" aria-label="Đóng hình ảnh">&times;</button>
         <img id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Full Screen Preview">
     </div>
 
