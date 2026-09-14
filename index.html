@@ -75,7 +75,6 @@
 
             <!-- LƯỚI TẤT CẢ CÁC ẢNH (Grid Gallery) -->
             <div class="gallery-section">
-                <!-- Đã sửa h2 -> h1 để giải quyết cảnh báo phân cấp tiêu đề của W3C -->
                 <h1 class="section-title">Thư viện ảnh của bạn (14)</h1>
 
                 <div class="gallery-grid">
@@ -161,10 +160,10 @@
                              onblur="unDo()">
                     </div>
 
-                    <!-- Ảnh 8: Đã mã hóa khoảng trắng %20 trong src -->
+                    <!-- Ảnh 8: Mã hóa %20 cho dấu cách và URL Encode cho tiếng Việt -->
                     <div class="grid-card">
                         <img class="preview" 
-                             src="images/Minh%20Chung%20Long%20Đế.jpg" 
+                             src="images/Minh%20Chung%20Long%20%C4%90%E1%BA%BF.jpg" 
                              alt="Minh Chung Long Đế" 
                              onmouseover="upDate(this)" 
                              onmouseout="unDo()"
@@ -197,7 +196,7 @@
                         <div class="card-badge"><i class="fa-solid fa-fire"></i> TREND</div>
                     </div>
 
-                    <!-- Ảnh 11: Đã mã hóa khoảng trắng %20 trong src -->
+                    <!-- Ảnh 11: Mã hóa %20 cho khoảng trắng -->
                     <div class="grid-card">
                         <img class="preview" 
                              src="images/Yugioh-Battle%20Card.jpg" 
@@ -248,10 +247,10 @@
         </main>
     </div>
 
-    <!-- Modal Toàn Màn Hình: Đã thêm Data URI hợp lệ cho thuộc tính src -->
+    <!-- Modal Toàn Màn Hình: Sử dụng Base64 chuẩn 1x1 trong suốt -->
     <div id="fullscreenModal" class="fullscreen-modal">
         <span class="close-modal" id="closeModal">&times;</span>
-        <img id="modalImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Full Screen Preview">
+        <img id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Full Screen Preview">
     </div>
 
     <script src="script.js"></script>
