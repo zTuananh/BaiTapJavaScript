@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Thư Viện Ảnh</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-layout">
+        <!-- SIDEBAR BÊN TRÁI -->
+        <aside class="sidebar">
+            <div class="sidebar-top">
+                <a href="#" class="brand-logo">
+                    <i class="fa-solid fa-shapes logo-icon"></i>
+                    <span>Thư Viện Ảnh</span>
+                </a>
+
+                <button class="create-btn">
+                    <i class="fa-solid fa-plus"></i> Tạo mới
+                </button>
+
+                <nav class="nav-menu">
+                    <a href="#" class="nav-item active"><i class="fa-solid fa-house"></i> Trang chủ</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-magnifying-glass"></i> Tìm kiếm</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-border-all"></i> Bộ sưu tập</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-compass"></i> Khám phá</a>
+                    <div class="menu-divider"></div>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-layer-group"></i> Tất cả công cụ</a>
+                    <a href="#" class="nav-item"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Studio</a>
+                </nav>
+            </div>
+
+            <div class="sidebar-bottom">
+                <button class="theme-toggle-btn" id="themeToggle" title="Đổi giao diện Sáng/Tối">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+            </div>
+        </aside>
+
+        <!-- NỘI DUNG CHÍNH (MAIN CONTENT) -->
+        <main class="main-content">
+            <!-- Header trên cùng -->
+            <header class="top-header">
+                <div class="search-box">
+                    <i class="fa-solid fa-border-top-left search-icon"></i>
+                    <input type="text" placeholder="Tìm kiếm, điều hướng hoặc khám phá hình ảnh...">
+                    <div class="search-actions">
+                        <i class="fa-solid fa-microphone"></i>
+                        <i class="fa-solid fa-camera"></i>
+                        <i class="fa-solid fa-sliders"></i>
+                    </div>
+                </div>
+
+                <div class="header-actions">
+                    <button class="btn-text">Đăng nhập</button>
+                    <button class="btn-primary">Đăng ký</button>
+                </div>
+            </header>
+
+            <!-- Thanh thẻ lọc (Filter Tags) -->
+            <div class="filter-bar">
+                <button class="filter-pill active"><i class="fa-solid fa-border-all"></i> Tất cả hình ảnh</button>
+                <button class="filter-pill"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Art</button>
+                <button class="filter-pill"><i class="fa-solid fa-gem"></i> Chất lượng cao 8K</button>
+                <button class="filter-pill"><i class="fa-solid fa-gamepad"></i> Anime & Game</button>
+                <button class="filter-pill"><i class="fa-solid fa-sliders"></i> Có thể chỉnh sửa</button>
+            </div>
+
+            <!-- KHUNG LỚN HIỂN THỊ -->
+            <div id="image">Hover over an image below to display here.</div>
+
+            <!-- LƯỚI TẤT CẢ CÁC ẢNH (Grid Gallery) -->
+            <div class="gallery-section">
+                <h2 class="section-title">Thư viện ảnh của bạn (14)</h2>
+
+                <div class="gallery-grid">
+                    <!-- Ảnh 1 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/SunnyOnePiece.jpg" 
+                             alt="Tàu Thousand Sunny - One Piece" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
+                    </div>
+
+                    <!-- Ảnh 2 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/OnePiece.jpg" 
+                             alt="Băng Hải Tặc Mũ Rơm" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
+                    </div>
+
+                    <!-- Ảnh 3 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/yu_gi_oh.jpg" 
+                             alt="Vua Trò Chơi Yu-Gi-Oh" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-crown"></i> PRO</div>
+                    </div>
+
+                    <!-- Ảnh 4 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/cardyugioh.jpg" 
+                             alt="Thẻ Bài Cổ Điển Yu-Gi-Oh" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                    </div>
+
+                    <!-- Ảnh 5 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/battlecard.jpg" 
+                             alt="Thẻ Bài Quyết Đấu Ma Thuật" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
+                    </div>
+
+                    <!-- Ảnh 6 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Goku_UI.jpg" 
+                             alt="Goku Bản Năng Vô Cực (Ultra Instinct)" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-bolt"></i> HOT</div>
+                    </div>
+
+                    <!-- Ảnh 7 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Kame_House.jpg" 
+                             alt="Nhà Quy Lão Kame - Dragon Ball" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                    </div>
+
+                    <!-- Ảnh 8 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Minh Chung Long Đế.jpg" 
+                             alt="Minh Chung Long Đế" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-star"></i> NEW</div>
+                    </div>
+
+                    <!-- Ảnh 9 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Yugioh.jpg" 
+                             alt="Yu-Gi-Oh Trận Đấu Ma Thuật" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
+                    </div>
+
+                    <!-- Ảnh 10 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Yugioh!.jpg" 
+                             alt="Vua Trò Chơi Yu-Gi-Oh!" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-fire"></i> TREND</div>
+                    </div>
+
+                    <!-- Ảnh 11 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/Yugioh-Battle Card.jpg" 
+                             alt="Yu-Gi-Oh Battle Card" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
+                    </div>
+
+                    <!-- Ảnh 12 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images/anime-yugiohdragon.jpeg" 
+                             alt="Rồng Trắng Mắt Xanh - Blue-Eyes White Dragon" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
+                    </div>
+
+                    <!-- Ảnh 13 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images\anime-yugiohyamiyugi.jpeg" 
+                             alt="Yami Yugi & Bài Ma Thuật" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                    </div>
+
+                    <!-- Ảnh 14 -->
+                    <div class="grid-card">
+                        <img class="preview" 
+                             src="images\anime-yugioh-egyptiangod-obeliskthetormentor-sliferthekydragon-thewingeddragonofra.jpeg" 
+                             alt="Tam Thần Ai Cập - Obelisk, Slifer, Ra" 
+                             onmouseover="upDate(this)" 
+                             onmouseout="unDo()">
+                        <div class="card-badge"><i class="fa-solid fa-crown"></i> GOD</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Modal Toàn Màn Hình -->
+    <div id="fullscreenModal" class="fullscreen-modal">
+        <span class="close-modal" id="closeModal">&times;</span>
+        <img id="modalImg" src="" alt="Full Screen Preview">
+    </div>
+
+    <script src="script.js"></script>
+
+</body>
+</html>
