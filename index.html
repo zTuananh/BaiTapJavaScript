@@ -75,7 +75,8 @@
 
             <!-- LƯỚI TẤT CẢ CÁC ẢNH (Grid Gallery) -->
             <div class="gallery-section">
-                <h2 class="section-title">Thư viện ảnh của bạn (14)</h2>
+                <!-- Đã sửa h2 -> h1 để giải quyết cảnh báo phân cấp tiêu đề của W3C -->
+                <h1 class="section-title">Thư viện ảnh của bạn (14)</h1>
 
                 <div class="gallery-grid">
                     <!-- Ảnh 1 -->
@@ -160,10 +161,10 @@
                              onblur="unDo()">
                     </div>
 
-                    <!-- Ảnh 8 -->
+                    <!-- Ảnh 8: Đã mã hóa khoảng trắng %20 trong src -->
                     <div class="grid-card">
                         <img class="preview" 
-                             src="images/Minh Chung Long Đế.jpg" 
+                             src="images/Minh%20Chung%20Long%20Đế.jpg" 
                              alt="Minh Chung Long Đế" 
                              onmouseover="upDate(this)" 
                              onmouseout="unDo()"
@@ -196,10 +197,10 @@
                         <div class="card-badge"><i class="fa-solid fa-fire"></i> TREND</div>
                     </div>
 
-                    <!-- Ảnh 11 -->
+                    <!-- Ảnh 11: Đã mã hóa khoảng trắng %20 trong src -->
                     <div class="grid-card">
                         <img class="preview" 
-                             src="images/Yugioh-Battle Card.jpg" 
+                             src="images/Yugioh-Battle%20Card.jpg" 
                              alt="Yu-Gi-Oh Battle Card" 
                              onmouseover="upDate(this)" 
                              onmouseout="unDo()"
@@ -247,10 +248,10 @@
         </main>
     </div>
 
-    <!-- Modal Toàn Màn Hình -->
+    <!-- Modal Toàn Màn Hình: Đã thêm Data URI hợp lệ cho thuộc tính src -->
     <div id="fullscreenModal" class="fullscreen-modal">
         <span class="close-modal" id="closeModal">&times;</span>
-        <img id="modalImg" src="" alt="Full Screen Preview">
+        <img id="modalImg" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'/%3E" alt="Full Screen Preview">
     </div>
 
     <script src="script.js"></script>
