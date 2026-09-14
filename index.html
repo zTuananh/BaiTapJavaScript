@@ -11,7 +11,6 @@
 <body onload="addTabFocus()">
 
     <div class="app-layout">
-        <!-- SIDEBAR BÊN TRÁI -->
         <aside class="sidebar">
             <div class="sidebar-top">
                 <a href="#" class="brand-logo">
@@ -35,19 +34,20 @@
             </div>
 
             <div class="sidebar-bottom">
-                <button class="theme-toggle-btn" id="themeToggle" title="Đổi giao diện Sáng/Tối">
+                <button class="theme-toggle-btn" id="themeToggle" title="Đổi giao diện Sáng/Tối" aria-label="Đổi giao diện Sáng Tối">
                     <i class="fa-solid fa-moon"></i>
                 </button>
             </div>
         </aside>
 
-        <!-- NỘI DUNG CHÍNH (MAIN CONTENT) -->
         <main class="main-content">
-            <!-- Header trên cùng -->
             <header class="top-header">
                 <div class="search-box">
                     <i class="fa-solid fa-border-top-left search-icon"></i>
-                    <input type="text" placeholder="Tìm kiếm, điều hướng hoặc khám phá hình ảnh...">
+                    <input type="text" 
+                           id="search-input"
+                           aria-label="Tìm kiếm hình ảnh" 
+                           placeholder="Tìm kiếm, điều hướng hoặc khám phá hình ảnh...">
                     <div class="search-actions">
                         <i class="fa-solid fa-microphone"></i>
                         <i class="fa-solid fa-camera"></i>
@@ -61,7 +61,6 @@
                 </div>
             </header>
 
-            <!-- Thanh thẻ lọc (Filter Tags) -->
             <div class="filter-bar">
                 <button class="filter-pill active"><i class="fa-solid fa-border-all"></i> Tất cả hình ảnh</button>
                 <button class="filter-pill"><i class="fa-solid fa-wand-magic-sparkles"></i> AI Art</button>
@@ -70,17 +69,15 @@
                 <button class="filter-pill"><i class="fa-solid fa-sliders"></i> Có thể chỉnh sửa</button>
             </div>
 
-            <!-- KHUNG LỚN HIỂN THỊ -->
             <div id="image">Hover over an image below to display here.</div>
 
-            <!-- LƯỚI TẤT CẢ CÁC ẢNH (Grid Gallery) -->
             <div class="gallery-section">
                 <h1 class="section-title">Thư viện ảnh của bạn (14)</h1>
 
                 <div class="gallery-grid">
-                    <!-- Ảnh 1 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/SunnyOnePiece.jpg" 
                              alt="Tàu Thousand Sunny - One Piece" 
                              onmouseover="upDate(this)" 
@@ -90,9 +87,9 @@
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
-                    <!-- Ảnh 2 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/OnePiece.jpg" 
                              alt="Băng Hải Tặc Mũ Rơm" 
                              onmouseover="upDate(this)" 
@@ -102,9 +99,9 @@
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
-                    <!-- Ảnh 3 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/yu_gi_oh.jpg" 
                              alt="Vua Trò Chơi Yu-Gi-Oh" 
                              onmouseover="upDate(this)" 
@@ -114,9 +111,9 @@
                         <div class="card-badge"><i class="fa-solid fa-crown"></i> PRO</div>
                     </div>
 
-                    <!-- Ảnh 4 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/cardyugioh.jpg" 
                              alt="Thẻ Bài Cổ Điển Yu-Gi-Oh" 
                              onmouseover="upDate(this)" 
@@ -125,9 +122,9 @@
                              onblur="unDo()">
                     </div>
 
-                    <!-- Ảnh 5 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/battlecard.jpg" 
                              alt="Thẻ Bài Quyết Đấu Ma Thuật" 
                              onmouseover="upDate(this)" 
@@ -137,9 +134,9 @@
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
-                    <!-- Ảnh 6 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Goku_UI.jpg" 
                              alt="Goku Bản Năng Vô Cực (Ultra Instinct)" 
                              onmouseover="upDate(this)" 
@@ -149,9 +146,9 @@
                         <div class="card-badge"><i class="fa-solid fa-bolt"></i> HOT</div>
                     </div>
 
-                    <!-- Ảnh 7 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Kame_House.jpg" 
                              alt="Nhà Quy Lão Kame - Dragon Ball" 
                              onmouseover="upDate(this)" 
@@ -160,9 +157,9 @@
                              onblur="unDo()">
                     </div>
 
-                    <!-- Ảnh 8: Mã hóa %20 cho dấu cách và URL Encode cho tiếng Việt -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Minh%20Chung%20Long%20%C4%90%E1%BA%BF.jpg" 
                              alt="Minh Chung Long Đế" 
                              onmouseover="upDate(this)" 
@@ -172,9 +169,9 @@
                         <div class="card-badge"><i class="fa-solid fa-star"></i> NEW</div>
                     </div>
 
-                    <!-- Ảnh 9 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Yugioh.jpg" 
                              alt="Yu-Gi-Oh Trận Đấu Ma Thuật" 
                              onmouseover="upDate(this)" 
@@ -184,9 +181,9 @@
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
-                    <!-- Ảnh 10 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Yugioh!.jpg" 
                              alt="Vua Trò Chơi Yu-Gi-Oh!" 
                              onmouseover="upDate(this)" 
@@ -196,9 +193,9 @@
                         <div class="card-badge"><i class="fa-solid fa-fire"></i> TREND</div>
                     </div>
 
-                    <!-- Ảnh 11: Mã hóa %20 cho khoảng trắng -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/Yugioh-Battle%20Card.jpg" 
                              alt="Yu-Gi-Oh Battle Card" 
                              onmouseover="upDate(this)" 
@@ -208,9 +205,9 @@
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
-                    <!-- Ảnh 12 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/anime-yugiohdragon.jpeg" 
                              alt="Rồng Trắng Mắt Xanh - Blue-Eyes White Dragon" 
                              onmouseover="upDate(this)" 
@@ -220,9 +217,10 @@
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
-                    <!-- Ảnh 13 -->
+                   <!-- Ảnh 13 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/anime-yugiohyamiyugi.jpeg" 
                              alt="Yami Yugi & Bài Ma Thuật" 
                              onmouseover="upDate(this)" 
@@ -231,9 +229,9 @@
                              onblur="unDo()">
                     </div>
 
-                    <!-- Ảnh 14 -->
                     <div class="grid-card">
                         <img class="preview" 
+                             tabindex="0"
                              src="images/anime-yugioh-egyptiangod-obeliskthetormentor-sliferthekydragon-thewingeddragonofra.jpeg" 
                              alt="Tam Thần Ai Cập - Obelisk, Slifer, Ra" 
                              onmouseover="upDate(this)" 
@@ -247,9 +245,8 @@
         </main>
     </div>
 
-    <!-- Modal Toàn Màn Hình: Sử dụng Base64 chuẩn 1x1 trong suốt -->
     <div id="fullscreenModal" class="fullscreen-modal">
-        <span class="close-modal" id="closeModal">&times;</span>
+        <span class="close-modal" id="closeModal" aria-label="Đóng hình ảnh">&times;</span>
         <img id="modalImg" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="Full Screen Preview">
     </div>
 
