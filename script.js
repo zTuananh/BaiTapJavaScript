@@ -1,25 +1,39 @@
 /* Chuyển đổi Light / Dark Mode */
 const themeToggleBtn = document.getElementById('themeToggle');
-const themeIcon = themeToggleBtn.querySelector('i');
+if (themeToggleBtn) {
+    const themeIcon = themeToggleBtn.querySelector('i');
+    themeToggleBtn.addEventListener('click', () => {
+        document.body.classList.toggle('light-mode');
+        const isLight = document.body.classList.contains('light-mode');
+        themeIcon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    });
+}
 
-themeToggleBtn.addEventListener('click', () => {
-    document.body.classList.toggle('light-mode');
-    const isLight = document.body.classList.contains('light-mode');
-    themeIcon.className = isLight ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
-});
-
-/* Hàm upDate chuẩn bài tập */
+/* Hàm upDate chuẩn bài tập (kèm console.log) */
 function upDate(previewPic) {
+    console.log("Sự kiện MouseOver / Focus được kích hoạt cho ảnh:", previewPic.alt);
     const imageDiv = document.getElementById("image");
     imageDiv.innerHTML = previewPic.alt;
     imageDiv.style.backgroundImage = "url('" + previewPic.src + "')";
 }
 
-/* Hàm unDo chuẩn bài tập */
+/* Hàm unDo chuẩn bài tập (kèm console.log) */
 function unDo() {
+    console.log("Sự kiện MouseOut / Blur được kích hoạt");
     const imageDiv = document.getElementById("image");
     imageDiv.style.backgroundImage = "url('')";
     imageDiv.innerHTML = "Hover over an image below to display here.";
+}
+
+/* Hàm onload tự động thêm tabindex bằng vòng lặp for (Yêu cầu bài tập) */
+function addTabFocus() {
+    console.log("Hàm onload (addTabFocus) bắt đầu chạy...");
+    const images = document.querySelectorAll(".preview");
+
+    for (let i = 0; i < images.length; i++) {
+        images[i].setAttribute("tabindex", "0");
+        console.log("Đã gán thành công tabindex='0' cho ảnh thứ " + (i + 1));
+    }
 }
 
 /* =========================================================
@@ -40,9 +54,11 @@ function openModal(imgSrc) {
 }
 
 // 1. Nhấn vào khung hiển thị lớn #image để mở phóng to
-imageBox.addEventListener('click', () => {
-    openModal(imageBox.style.backgroundImage);
-});
+if (imageBox) {
+    imageBox.addEventListener('click', () => {
+        openModal(imageBox.style.backgroundImage);
+    });
+}
 
 // 2. Nhấn trực tiếp vào bất kỳ ô ảnh nhỏ nào trong lưới grid
 document.querySelectorAll('.preview').forEach(img => {
@@ -52,24 +68,30 @@ document.querySelectorAll('.preview').forEach(img => {
 });
 
 // 3. Nhấn vào ảnh trong Modal để bật/tắt Zoom 1.4x
-modalImg.addEventListener('click', (e) => {
-    e.stopPropagation();
-    modalImg.classList.toggle('zoomed');
-});
+if (modalImg) {
+    modalImg.addEventListener('click', (e) => {
+        e.stopPropagation();
+        modalImg.classList.toggle('zoomed');
+    });
+}
 
 // 4. Đóng Modal và reset trạng thái phóng to
 function hideModal() {
-    modal.classList.remove('active');
-    modalImg.classList.remove('zoomed');
+    if (modal && modalImg) {
+        modal.classList.remove('active');
+        modalImg.classList.remove('zoomed');
+    }
 }
 
-closeModal.addEventListener('click', hideModal);
-modal.addEventListener('click', (e) => {
-    if (e.target === modal) hideModal();
-});
+if (closeModal) closeModal.addEventListener('click', hideModal);
+if (modal) {
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) hideModal();
+    });
+}
 
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && modal.classList.contains('active')) {
+    if (e.key === 'Escape' && modal && modal.classList.contains('active')) {
         hideModal();
     }
 });

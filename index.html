@@ -8,7 +8,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body onload="addTabFocus()">
 
     <div class="app-layout">
         <!-- SIDEBAR BÊN TRÁI -->
@@ -84,7 +84,9 @@
                              src="images/SunnyOnePiece.jpg" 
                              alt="Tàu Thousand Sunny - One Piece" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
@@ -94,7 +96,9 @@
                              src="images/OnePiece.jpg" 
                              alt="Băng Hải Tặc Mũ Rơm" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
@@ -104,7 +108,9 @@
                              src="images/yu_gi_oh.jpg" 
                              alt="Vua Trò Chơi Yu-Gi-Oh" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-crown"></i> PRO</div>
                     </div>
 
@@ -114,7 +120,9 @@
                              src="images/cardyugioh.jpg" 
                              alt="Thẻ Bài Cổ Điển Yu-Gi-Oh" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                     </div>
 
                     <!-- Ảnh 5 -->
@@ -123,7 +131,9 @@
                              src="images/battlecard.jpg" 
                              alt="Thẻ Bài Quyết Đấu Ma Thuật" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-wand-magic"></i> AI</div>
                     </div>
 
@@ -133,7 +143,9 @@
                              src="images/Goku_UI.jpg" 
                              alt="Goku Bản Năng Vô Cực (Ultra Instinct)" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-bolt"></i> HOT</div>
                     </div>
 
@@ -143,7 +155,9 @@
                              src="images/Kame_House.jpg" 
                              alt="Nhà Quy Lão Kame - Dragon Ball" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                     </div>
 
                     <!-- Ảnh 8 -->
@@ -152,7 +166,9 @@
                              src="images/Minh Chung Long Đế.jpg" 
                              alt="Minh Chung Long Đế" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-star"></i> NEW</div>
                     </div>
 
@@ -162,7 +178,9 @@
                              src="images/Yugioh.jpg" 
                              alt="Yu-Gi-Oh Trận Đấu Ma Thuật" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
@@ -172,7 +190,9 @@
                              src="images/Yugioh!.jpg" 
                              alt="Vua Trò Chơi Yu-Gi-Oh!" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-fire"></i> TREND</div>
                     </div>
 
@@ -182,7 +202,9 @@
                              src="images/Yugioh-Battle Card.jpg" 
                              alt="Yu-Gi-Oh Battle Card" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
@@ -192,26 +214,32 @@
                              src="images/anime-yugiohdragon.jpeg" 
                              alt="Rồng Trắng Mắt Xanh - Blue-Eyes White Dragon" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-dragon"></i> RARE</div>
                     </div>
 
                     <!-- Ảnh 13 -->
                     <div class="grid-card">
                         <img class="preview" 
-                             src="images\anime-yugiohyamiyugi.jpeg" 
+                             src="images/anime-yugiohyamiyugi.jpeg" 
                              alt="Yami Yugi & Bài Ma Thuật" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                     </div>
 
                     <!-- Ảnh 14 -->
                     <div class="grid-card">
                         <img class="preview" 
-                             src="images\anime-yugioh-egyptiangod-obeliskthetormentor-sliferthekydragon-thewingeddragonofra.jpeg" 
+                             src="images/anime-yugioh-egyptiangod-obeliskthetormentor-sliferthekydragon-thewingeddragonofra.jpeg" 
                              alt="Tam Thần Ai Cập - Obelisk, Slifer, Ra" 
                              onmouseover="upDate(this)" 
-                             onmouseout="unDo()">
+                             onmouseout="unDo()"
+                             onfocus="upDate(this)"
+                             onblur="unDo()">
                         <div class="card-badge"><i class="fa-solid fa-crown"></i> GOD</div>
                     </div>
                 </div>
