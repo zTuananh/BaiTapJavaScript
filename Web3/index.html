@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hệ Thống Quản Lý Điểm Sinh Viên Chuyên Nghiệp</title>
+    <!-- Google Fonts & FontAwesome Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Liên kết CSS riêng -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Hiệu ứng nền trang trí động -->
+    <div class="bg-blur shape-1"></div>
+    <div class="bg-blur shape-2"></div>
+
+    <div class="app-container">
+        <!-- Header chính -->
+        <header class="app-header">
+            <div class="logo-box">
+                <i class="fa-solid fa-graduation-cap"></i>
+            </div>
+            <div>
+                <h1>Quản Lý Điểm Sinh Viên</h1>
+                <p>Tính điểm trung bình & xếp loại học tập học phần</p>
+            </div>
+        </header>
+
+        <!-- Form Nhập Liệu -->
+        <main class="card-box">
+            <form id="scoreForm" novalidate>
+                <div class="form-group full-row">
+                    <label for="studentName"><i class="fa-solid fa-user-pen"></i> Tên sinh viên</label>
+                    <input type="text" id="studentName" placeholder="Nhập đầy đủ họ và tên sinh viên...">
+                    <span class="error-text" id="nameError"></span>
+                </div>
+
+                <div class="subjects-grid">
+                    <div class="form-group">
+                        <label for="subj1"><i class="fa-solid fa-calculator"></i> Giải tích 1</label>
+                        <input type="number" step="0.1" min="0" max="10" id="subj1" placeholder="0 - 10">
+                        <span class="error-text" id="subj1Error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subj2"><i class="fa-solid fa-square-root-variable"></i> Đại số tuyến tính</label>
+                        <input type="number" step="0.1" min="0" max="10" id="subj2" placeholder="0 - 10">
+                        <span class="error-text" id="subj2Error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subj3"><i class="fa-solid fa-chart-pie"></i> Xác suất thống kê</label>
+                        <input type="number" step="0.1" min="0" max="10" id="subj3" placeholder="0 - 10">
+                        <span class="error-text" id="subj3Error"></span>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subj4"><i class="fa-solid fa-laptop-code"></i> Tin học đại cương</label>
+                        <input type="number" step="0.1" min="0" max="10" id="subj4" placeholder="0 - 10">
+                        <span class="error-text" id="subj4Error"></span>
+                    </div>
+
+                    <div class="form-group full-row">
+                        <label for="subj5"><i class="fa-solid fa-globe"></i> Xây dựng ứng dụng Web</label>
+                        <input type="number" step="0.1" min="0" max="10" id="subj5" placeholder="0 - 10">
+                        <span class="error-text" id="subj5Error"></span>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" id="calcBtn" class="btn-primary">
+                        <i class="fa-solid fa-calculator"></i> Tính kết quả
+                    </button>
+                    <button type="reset" id="resetBtn" class="btn-secondary">
+                        <i class="fa-solid fa-rotate-right"></i> Nhập lại
+                    </button>
+                </div>
+            </form>
+        </main>
+
+        <!-- Phần Hiển Thị Kết Quả -->
+        <section id="resultSection" class="card-box result-card hidden">
+            <div class="result-title">
+                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Tổng Kết</h2>
+                <span id="resNameBadge" class="badge-name"></span>
+            </div>
+
+            <div class="table-container">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th>Môn Học</th>
+                            <th>Điểm Số</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Giải tích 1</td>
+                            <td id="resSubj1">0</td>
+                        </tr>
+                        <tr>
+                            <td>Đại số tuyến tính</td>
+                            <td id="resSubj2">0</td>
+                        </tr>
+                        <tr>
+                            <td>Xác suất thống kê</td>
+                            <td id="resSubj3">0</td>
+                        </tr>
+                        <tr>
+                            <td>Tin học đại cương</td>
+                            <td id="resSubj4">0</td>
+                        </tr>
+                        <tr>
+                            <td>Xây dựng ứng dụng Web</td>
+                            <td id="resSubj5">0</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="summary-grid">
+                <div class="sum-box">
+                    <span class="sum-title">Điểm Trung Bình</span>
+                    <span id="resAvg" class="sum-content">0.00</span>
+                </div>
+                <div class="sum-box">
+                    <span class="sum-title">Xếp Loại Học Tập</span>
+                    <span id="resClassify" class="sum-content">-</span>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Liên kết JS riêng -->
+    <script src="script.js"></script>
+</body>
+</html>

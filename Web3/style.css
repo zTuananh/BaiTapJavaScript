@@ -1,0 +1,325 @@
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #64748b;
+    --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+    --card-bg: rgba(255, 255, 255, 0.85);
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --border-clr: #cbd5e1;
+    --error-clr: #ef4444;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #4f46e5 0%, #06b6d4 100%);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+/* Hiệu ứng nền trang trí */
+.bg-blur {
+    position: absolute;
+    filter: blur(100px);
+    z-index: 0;
+    opacity: 0.4;
+    border-radius: 50%;
+}
+.shape-1 {
+    width: 350px;
+    height: 350px;
+    background: #ff007f;
+    top: -50px;
+    left: -50px;
+}
+.shape-2 {
+    width: 400px;
+    height: 400px;
+    background: #00ffcc;
+    bottom: -50px;
+    right: -50px;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 600px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Header style */
+.app-header {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    padding: 20px 25px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.logo-box {
+    width: 50px;
+    height: 50px;
+    background: var(--primary);
+    color: white;
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 14px;
+    box-shadow: 0 6px 15px rgba(99, 102, 241, 0.4);
+}
+
+.app-header h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--text-main);
+}
+
+.app-header p {
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: 2px;
+}
+
+/* Card Container */
+.card-box {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.5);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 16px;
+}
+
+.form-group.full-row {
+    grid-column: span 2;
+}
+
+.subjects-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0 16px;
+}
+
+label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-main);
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+label i {
+    color: var(--primary);
+}
+
+input[type="text"],
+input[type="number"] {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1.5px solid var(--border-clr);
+    border-radius: 10px;
+    font-size: 14px;
+    background: #ffffff;
+    transition: all 0.3s;
+}
+
+input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+    outline: none;
+}
+
+.error-text {
+    color: var(--error-clr);
+    font-size: 11px;
+    margin-top: 4px;
+    min-height: 15px;
+    font-weight: 500;
+}
+
+/* Nút bấm hành động */
+.button-group {
+    display: flex;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+button {
+    flex: 1;
+    padding: 13px;
+    border: none;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 8px 18px rgba(99, 102, 241, 0.35);
+}
+
+.btn-primary:hover {
+    background: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: #e2e8f0;
+    color: var(--text-muted);
+}
+
+.btn-secondary:hover {
+    background: #cbd5e1;
+}
+
+.hidden {
+    display: none;
+}
+
+/* Phần hiển thị kết quả */
+.result-card {
+    animation: slideUp 0.4s ease-in-out;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(15px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.result-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.result-title h2 {
+    font-size: 18px;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.badge-name {
+    background: #e0e7ff;
+    color: var(--primary);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.table-container {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--border-clr);
+    margin-bottom: 20px;
+}
+
+.result-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.result-table th, 
+.result-table td {
+    padding: 10px 16px;
+    text-align: left;
+    font-size: 14px;
+}
+
+.result-table th {
+    background: #f1f5f9;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.result-table td {
+    border-top: 1px solid #f1f5f9;
+    color: var(--text-muted);
+    font-weight: 500;
+}
+
+.summary-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+}
+
+.sum-box {
+    background: #f8fafc;
+    border: 1.5px solid var(--border-clr);
+    padding: 16px;
+    border-radius: 14px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.sum-title {
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 6px;
+}
+
+.sum-content {
+    font-size: 20px;
+    font-weight: 700;
+}
+
+/* Màu trạng thái xếp loại */
+.tag-gioi { color: #10b981; }
+.tag-kha { color: #3b82f6; }
+.tag-tb { color: #f59e0b; }
+.tag-yeu { color: #ef4444; }
+
+@media (max-width: 576px) {
+    .subjects-grid {
+        grid-template-columns: 1fr;
+    }
+    .form-group.full-row {
+        grid-column: span 1;
+    }
+    .app-container {
+        padding: 10px;
+    }
+}
