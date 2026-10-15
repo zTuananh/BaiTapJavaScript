@@ -29,7 +29,6 @@ body {
     overflow-x: hidden;
 }
 
-/* Hiệu ứng nền trang trí */
 .bg-blur {
     position: absolute;
     filter: blur(100px);
@@ -54,7 +53,7 @@ body {
 
 .app-container {
     width: 100%;
-    max-width: 600px;
+    max-width: 650px;
     z-index: 1;
     display: flex;
     flex-direction: column;
@@ -206,20 +205,25 @@ button {
     background: #cbd5e1;
 }
 
+.btn-danger-sm {
+    background: #fee2e2;
+    color: #ef4444;
+    padding: 6px 12px;
+    font-size: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.btn-danger-sm:hover {
+    background: #fca5a5;
+    color: #991b1b;
+}
+
 .hidden {
-    display: none;
+    display: none !important;
 }
 
-/* Phần hiển thị kết quả */
-.result-card {
-    animation: slideUp 0.4s ease-in-out;
-}
-
-@keyframes slideUp {
-    from { opacity: 0; transform: translateY(15px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
+/* Bảng và Kết quả */
 .result-title {
     display: flex;
     justify-content: space-between;
@@ -228,7 +232,7 @@ button {
 }
 
 .result-title h2 {
-    font-size: 18px;
+    font-size: 17px;
     color: var(--text-main);
     display: flex;
     align-items: center;
@@ -248,7 +252,11 @@ button {
     border-radius: 12px;
     overflow: hidden;
     border: 1px solid var(--border-clr);
-    margin-bottom: 20px;
+    margin-bottom: 15px;
+}
+
+.table-responsive {
+    overflow-x: auto;
 }
 
 .result-table {
@@ -259,9 +267,9 @@ button {
 
 .result-table th, 
 .result-table td {
-    padding: 10px 16px;
+    padding: 10px 14px;
     text-align: left;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .result-table th {
@@ -273,7 +281,44 @@ button {
 .result-table td {
     border-top: 1px solid #f1f5f9;
     color: var(--text-muted);
-    font-weight: 500;
+}
+
+/* Thao tác nút trong bảng */
+.action-btns {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+}
+
+.btn-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    cursor: pointer;
+    border: none;
+    transition: 0.2s;
+}
+
+.btn-edit {
+    background: #e0f2fe;
+    color: #0284c7;
+}
+
+.btn-edit:hover {
+    background: #bae6fd;
+}
+
+.btn-delete {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.btn-delete:hover {
+    background: #fca5a5;
 }
 
 .summary-grid {
@@ -285,12 +330,9 @@ button {
 .sum-box {
     background: #f8fafc;
     border: 1.5px solid var(--border-clr);
-    padding: 16px;
+    padding: 14px;
     border-radius: 14px;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
 }
 
 .sum-title {
@@ -298,28 +340,21 @@ button {
     color: var(--text-muted);
     font-weight: 700;
     text-transform: uppercase;
-    margin-bottom: 6px;
+    margin-bottom: 4px;
+    display: block;
 }
 
 .sum-content {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 700;
 }
 
-/* Màu trạng thái xếp loại */
 .tag-gioi { color: #10b981; }
 .tag-kha { color: #3b82f6; }
 .tag-tb { color: #f59e0b; }
 .tag-yeu { color: #ef4444; }
 
 @media (max-width: 576px) {
-    .subjects-grid {
-        grid-template-columns: 1fr;
-    }
-    .form-group.full-row {
-        grid-column: span 1;
-    }
-    .app-container {
-        padding: 10px;
-    }
+    .subjects-grid { grid-template-columns: 1fr; }
+    .form-group.full-row { grid-column: span 1; }
 }
