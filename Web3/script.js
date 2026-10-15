@@ -1,7 +1,9 @@
+// Khởi tạo mảng lưu danh sách sinh viên từ LocalStorage (nếu có)
+let studentList = JSON.parse(localStorage.getItem('STUDENT_LIST_DATA')) || [];
+let editingIndex = -1; // -1 nghĩa là đang ở chế độ Thêm Mới, >= 0 là đang Chỉnh Sửa vị trí tương ứng
+
 /**
  * Hàm tính điểm trung bình
- * @param {number[]} scores - Mảng chứa điểm số của 5 môn
- * @returns {number} - Điểm trung bình
  */
 function calculateAverage(scores) {
     if (!scores || scores.length === 0) return 0;
@@ -11,8 +13,6 @@ function calculateAverage(scores) {
 
 /**
  * Hàm xếp loại học tập
- * @param {number} avg - Điểm trung bình đã tính
- * @returns {string} - Tên xếp loại (Giỏi, Khá, Trung bình, Yếu)
  */
 function classify(avg) {
     if (avg >= 8.0) {
@@ -26,9 +26,13 @@ function classify(avg) {
     }
 }
 
-// Xử lý khi nhấn nút "Tính kết quả"
+// Khởi chạy hiển thị danh sách ngay khi tải trang
+document.addEventListener('DOMContentLoaded', () => {
+    renderStudentTable();
+});
+
+// Xử lý khi nhấn nút "Tính & Lưu kết quả"
 document.getElementById('calcBtn').addEventListener('click', function() {
-    // Lấy giá trị từ các trường form
     const studentName = document.getElementById('studentName').value.trim();
     const s1 = document.getElementById('subj1').value;
     const s2 = document.getElementById('subj2').value;
@@ -36,23 +40,17 @@ document.getElementById('calcBtn').addEventListener('click', function() {
     const s4 = document.getElementById('subj4').value;
     const s5 = document.getElementById('subj5').value;
 
-    // Reset các thông báo lỗi trước đó
-    document.getElementById('nameError').innerText = "";
-    document.getElementById('subj1Error').innerText = "";
-    document.getElementById('subj2Error').innerText = "";
-    document.getElementById('subj3Error').innerText = "";
-    document.getElementById('subj4Error').innerText = "";
-    document.getElementById('subj5Error').innerText = "";
+    // Reset thông báo lỗi
+    clearErrorMessages();
 
     let isValid = true;
 
-    // Kiểm tra tính hợp lệ của Tên sinh viên
+    // Kiểm tra tên sinh viên
     if (studentName === "") {
         document.getElementById('nameError').innerText = "Tên sinh viên không được để trống!";
         isValid = false;
     }
 
-    // Danh sách các điểm cần validate
     const inputList = [
         { val: s1, errId: 'subj1Error' },
         { val: s2, errId: 'subj2Error' },
@@ -63,7 +61,7 @@ document.getElementById('calcBtn').addEventListener('click', function() {
 
     const scores = [];
 
-    // Kiểm tra dữ liệu điểm 5 môn học
+    // Validation điểm số
     inputList.forEach(item => {
         if (item.val === "") {
             document.getElementById(item.errId).innerText = "Điểm không được để trống!";
@@ -79,47 +77,179 @@ document.getElementById('calcBtn').addEventListener('click', function() {
         }
     });
 
-    // Nếu dữ liệu hợp lệ hoàn toàn
     if (isValid) {
-        // Gọi hàm tính toán theo yêu cầu
         const avg = calculateAverage(scores);
         const rank = classify(avg);
 
-        // Hiển thị kết quả ra giao diện dạng bảng
-        document.getElementById('resNameBadge').innerText = studentName;
-        document.getElementById('resSubj1').innerText = scores[0];
-        document.getElementById('resSubj2').innerText = scores[1];
-        document.getElementById('resSubj3').innerText = scores[2];
-        document.getElementById('resSubj4').innerText = scores[3];
-        document.getElementById('resSubj5').innerText = scores[4];
+        const studentData = {
+            name: studentName,
+            scores: scores,
+            avg: avg,
+            rank: rank
+        };
 
-        // Làm tròn điểm trung bình 2 chữ số thập phân
-        document.getElementById('resAvg').innerText = avg.toFixed(2);
+        if (editingIndex === -1) {
+            // Trường hợp 1: THÊM MỚI SINH VIÊN
+            studentList.push(studentData);
+        } else {
+            // Trường hợp 2: CẬP NHẬT SINH VIÊN ĐÃ CÓ
+            studentList[editingIndex] = studentData;
+            editingIndex = -1; // Đưa về trạng thái ban đầu
+            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+        }
 
-        // Hiển thị xếp loại và đổi màu sắc tương ứng
-        const rankElement = document.getElementById('resClassify');
-        rankElement.innerText = rank;
-        
-        rankElement.className = "sum-content"; // Reset class màu cũ
-        if (rank === "Giỏi") rankElement.classList.add('tag-gioi');
-        else if (rank === "Khá") rankElement.classList.add('tag-kha');
-        else if (rank === "Trung bình") rankElement.classList.add('tag-tb');
-        else rankElement.classList.add('tag-yeu');
+        // Lưu vào Local Storage
+        saveToLocalStorage();
 
-        // Mở hiển thị bảng kết quả không cần reload trang
-        document.getElementById('resultSection').classList.remove('hidden');
-    } else {
-        // Ẩn vùng kết quả nếu phát hiện dữ liệu lỗi
-        document.getElementById('resultSection').classList.add('hidden');
+        // Hiển thị kết quả cá nhân vừa tính
+        displaySingleResult(studentName, scores, avg, rank);
+
+        // Render lại bảng danh sách tổng hợp
+        renderStudentTable();
+
+        // Xóa sạch ô nhập để sẵn sàng nhập sinh viên tiếp theo
+        resetFormInputs();
     }
 });
 
-// Xử lý nút "Nhập lại" (Reset form và ẩn kết quả)
-document.getElementById('resetBtn').addEventListener('click', function() {
-    document.getElementById('scoreForm').reset();
-    document.getElementById('resultSection').classList.add('hidden');
+// Hiển thị kết quả chi tiết của 1 sinh viên vừa tính
+function displaySingleResult(name, scores, avg, rank) {
+    document.getElementById('resNameBadge').innerText = name;
+    document.getElementById('resSubj1').innerText = scores[0];
+    document.getElementById('resSubj2').innerText = scores[1];
+    document.getElementById('resSubj3').innerText = scores[2];
+    document.getElementById('resSubj4').innerText = scores[3];
+    document.getElementById('resSubj5').innerText = scores[4];
+    document.getElementById('resAvg').innerText = avg.toFixed(2);
+
+    const rankElement = document.getElementById('resClassify');
+    rankElement.innerText = rank;
+    rankElement.className = "sum-content"; 
     
-    // Xóa sạch text lỗi
+    if (rank === "Giỏi") rankElement.classList.add('tag-gioi');
+    else if (rank === "Khá") rankElement.classList.add('tag-kha');
+    else if (rank === "Trung bình") rankElement.classList.add('tag-tb');
+    else rankElement.classList.add('tag-yeu');
+
+    document.getElementById('resultSection').classList.remove('hidden');
+}
+
+// Render lại bảng danh sách tổng hợp
+function renderStudentTable() {
+    const tbody = document.getElementById('studentTableBody');
+    const totalCount = document.getElementById('totalStudentsCount');
+    const deleteAllBtn = document.getElementById('deleteAllBtn');
+
+    tbody.innerHTML = '';
+    totalCount.innerText = studentList.length;
+
+    if (studentList.length === 0) {
+        tbody.innerHTML = `
+            <tr>
+                <td colspan="5" style="text-align: center; color: var(--text-muted); padding: 20px;">
+                    <i class="fa-regular fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
+                    Chưa có sinh viên nào trong danh sách.
+                </td>
+            </tr>`;
+        deleteAllBtn.classList.add('hidden');
+        return;
+    }
+
+    deleteAllBtn.classList.remove('hidden');
+
+    studentList.forEach((sv, index) => {
+        const tr = document.createElement('tr');
+
+        let tagClass = "tag-yeu";
+        if (sv.rank === "Giỏi") tagClass = "tag-gioi";
+        else if (sv.rank === "Khá") tagClass = "tag-kha";
+        else if (sv.rank === "Trung bình") tagClass = "tag-tb";
+
+        tr.innerHTML = `
+            <td>${index + 1}</td>
+            <td><strong>${sv.name}</strong></td>
+            <td style="text-align: center;"><strong>${sv.avg.toFixed(2)}</strong></td>
+            <td style="text-align: center;"><span class="${tagClass}" style="font-weight:700">${sv.rank}</span></td>
+            <td style="text-align: center;">
+                <div class="action-btns">
+                    <button class="btn-icon btn-edit" onclick="editStudent(${index})" title="Chỉnh sửa">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                    </button>
+                    <button class="btn-icon btn-delete" onclick="deleteStudent(${index})" title="Xóa">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+// Hàm load thông tin sinh viên lên form để SỬA
+function editStudent(index) {
+    const sv = studentList[index];
+    document.getElementById('studentName').value = sv.name;
+    document.getElementById('subj1').value = sv.scores[0];
+    document.getElementById('subj2').value = sv.scores[1];
+    document.getElementById('subj3').value = sv.scores[2];
+    document.getElementById('subj4').value = sv.scores[3];
+    document.getElementById('subj5').value = sv.scores[4];
+
+    editingIndex = index;
+    document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-floppy-disk"></i> Cập nhật sinh viên`;
+    clearErrorMessages();
+
+    // Cuộn mượt lên form nhập liệu
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Hàm XÓA 1 sinh viên
+function deleteStudent(index) {
+    const svName = studentList[index].name;
+    if (confirm(`Bạn có chắc chắn muốn xóa sinh viên "${svName}" khỏi danh sách?`)) {
+        studentList.splice(index, 1);
+        saveToLocalStorage();
+        renderStudentTable();
+
+        // Nếu đang sửa đúng sinh viên bị xóa thì hủy chế độ sửa
+        if (editingIndex === index) {
+            resetFormInputs();
+            editingIndex = -1;
+            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+        }
+    }
+}
+
+// Hàm XÓA TẤT CẢ danh sách
+document.getElementById('deleteAllBtn').addEventListener('click', function() {
+    if (confirm("⚠️ BẠN CÓ CHẮC CHẮN MUỐN XÓA TOÀN BỘ DANH SÁCH SINH VIÊN?")) {
+        studentList = [];
+        localStorage.removeItem('STUDENT_LIST_DATA');
+        renderStudentTable();
+        document.getElementById('resultSection').classList.add('hidden');
+        resetFormInputs();
+    }
+});
+
+// Xử lý nút "Nhập lại"
+document.getElementById('resetBtn').addEventListener('click', function() {
+    resetFormInputs();
+    clearErrorMessages();
+    editingIndex = -1;
+    document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+    document.getElementById('resultSection').classList.add('hidden');
+});
+
+// Các hàm tiện ích
+function saveToLocalStorage() {
+    localStorage.setItem('STUDENT_LIST_DATA', JSON.stringify(studentList));
+}
+
+function clearErrorMessages() {
     const errorSpans = document.querySelectorAll('.error-text');
     errorSpans.forEach(span => span.innerText = "");
-});
+}
+
+function resetFormInputs() {
+    document.getElementById('scoreForm').reset();
+}
