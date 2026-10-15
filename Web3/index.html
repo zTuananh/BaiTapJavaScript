@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Lý Điểm Sinh Viên Chuyên Nghiệp</title>
+    <title>Hệ Thống Quản Lý & Phân Tích Điểm Sinh Viên</title>
     <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Liên kết CSS riêng -->
+    <!-- CSS riêng -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Hiệu ứng nền trang trí động -->
+    <!-- Nền trang trí -->
     <div class="bg-blur shape-1"></div>
     <div class="bg-blur shape-2"></div>
 
@@ -23,12 +23,12 @@
             </div>
             <div>
                 <h1>Quản Lý Điểm Sinh Viên</h1>
-                <p>Tính điểm trung bình & xếp loại học tập học phần</p>
+                <p>Tính điểm, quy đổi thang GPA 4.0, xét duyệt học bổng & báo cáo</p>
             </div>
         </header>
 
-        <!-- Form Nhập Liệu -->
-        <main class="card-box">
+        <!-- Form Nhập Liệu (Không in ra khi bấm Print) -->
+        <main class="card-box no-print">
             <form id="scoreForm" novalidate>
                 <div class="form-group full-row">
                     <label for="studentName"><i class="fa-solid fa-user-pen"></i> Tên sinh viên</label>
@@ -79,10 +79,10 @@
             </form>
         </main>
 
-        <!-- Phần Hiển Thị Kết Quả Chi Tiết Cá Nhân -->
-        <section id="resultSection" class="card-box result-card hidden">
+        <!-- Hiển Thị Kết Quả Cá Nhân Vừa Tính (Không in) -->
+        <section id="resultSection" class="card-box result-card hidden no-print">
             <div class="result-title">
-                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Vừa Tính</h2>
+                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Tổng Kết Cá Nhân</h2>
                 <span id="resNameBadge" class="badge-name"></span>
             </div>
 
@@ -91,7 +91,7 @@
                     <thead>
                         <tr>
                             <th>Môn Học</th>
-                            <th>Điểm Số</th>
+                            <th>Điểm Thang 10</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -104,50 +104,97 @@
                 </table>
             </div>
 
-            <div class="summary-grid">
+            <!-- Nhóm 3: Quy đổi thang điểm & Xét duyệt -->
+            <div class="summary-grid summary-grid-4">
                 <div class="sum-box">
-                    <span class="sum-title">Điểm Trung Bình</span>
+                    <span class="sum-title">ĐTB Thang 10</span>
                     <span id="resAvg" class="sum-content">0.00</span>
+                </div>
+                <div class="sum-box">
+                    <span class="sum-title">GPA (Thang 4 / Điểm chữ)</span>
+                    <span id="resGpa" class="sum-content">0.00 (F)</span>
                 </div>
                 <div class="sum-box">
                     <span class="sum-title">Xếp Loại Học Tập</span>
                     <span id="resClassify" class="sum-content">-</span>
                 </div>
+                <div class="sum-box">
+                    <span class="sum-title">Xét Duyệt Academic</span>
+                    <span id="resStatus" class="sum-content">-</span>
+                </div>
             </div>
         </section>
 
-        <!-- CHỨC NĂNG NÂNG CAO: BẢNG DANH SÁCH TỔNG HỢP -->
-        <section class="card-box result-card">
+        <!-- BẢNG DANH SÁCH SINH VIÊN TỔNG HỢP -->
+        <section class="card-box print-area">
             <div class="result-title">
                 <h2>
                     <i class="fa-solid fa-users-rectangle"></i> 
                     Danh Sách Sinh Viên (<span id="totalStudentsCount">0</span>)
                 </h2>
-                <button type="button" id="deleteAllBtn" class="btn-danger-sm hidden">
-                    <i class="fa-solid fa-trash-can"></i> Xóa tất cả
-                </button>
+                <!-- Nhóm 4: Nút xuất báo cáo và in -->
+                <div class="header-actions no-print">
+                    <button type="button" id="exportCsvBtn" class="btn-success-sm" title="Xuất file Excel CSV">
+                        <i class="fa-solid fa-file-excel"></i> Xuất CSV
+                    </button>
+                    <button type="button" id="printBtn" class="btn-info-sm" title="In báo cáo">
+                        <i class="fa-solid fa-print"></i> In báo cáo
+                    </button>
+                    <button type="button" id="deleteAllBtn" class="btn-danger-sm hidden" title="Xóa tất cả">
+                        <i class="fa-solid fa-trash-can"></i> Xóa tất cả
+                    </button>
+                </div>
+            </div>
+
+            <!-- Nhóm 5: Thanh Tìm Kiếm, Lọc & Sắp Xếp -->
+            <div class="filter-bar no-print">
+                <div class="search-box">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" id="searchInput" placeholder="Tìm theo tên sinh viên...">
+                </div>
+
+                <div class="select-box">
+                    <select id="filterRank">
+                        <option value="ALL">-- Tất cả xếp loại --</option>
+                        <option value="Giỏi">Giỏi</option>
+                        <option value="Khá">Khá</option>
+                        <option value="Trung bình">Trung bình</option>
+                        <option value="Yếu">Yếu</option>
+                    </select>
+                </div>
+
+                <div class="select-box">
+                    <select id="sortBy">
+                        <option value="default">Sắp xếp: Mặc định</option>
+                        <option value="avg-desc">ĐTB: Cao -> Thấp</option>
+                        <option value="avg-asc">ĐTB: Thấp -> Cao</option>
+                        <option value="name-asc">Tên: A -> Z</option>
+                    </select>
+                </div>
             </div>
 
             <div class="table-container table-responsive">
                 <table class="result-table">
                     <thead>
                         <tr>
-                            <th style="width: 50px;">STT</th>
+                            <th style="width: 45px;">STT</th>
                             <th>Họ & Tên</th>
-                            <th style="text-align: center;">ĐTB</th>
+                            <th style="text-align: center;">Thang 10</th>
+                            <th style="text-align: center;">Thang 4</th>
                             <th style="text-align: center;">Xếp Loại</th>
-                            <th style="text-align: center; width: 100px;">Thao Tác</th>
+                            <th style="text-align: center;">Trạng Thái</th>
+                            <th style="text-align: center; width: 90px;" class="no-print">Thao Tác</th>
                         </tr>
                     </thead>
                     <tbody id="studentTableBody">
-                        <!-- Nội dung danh sách sẽ được JS chèn vào đây -->
+                        <!-- JS tự động tải dữ liệu vào đây -->
                     </tbody>
                 </table>
             </div>
         </section>
     </div>
 
-    <!-- Liên kết JS riêng -->
+    <!-- JS riêng -->
     <script src="script.js"></script>
 </body>
 </html>
