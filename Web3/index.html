@@ -70,7 +70,7 @@
 
                 <div class="button-group">
                     <button type="button" id="calcBtn" class="btn-primary">
-                        <i class="fa-solid fa-calculator"></i> Tính kết quả
+                        <i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả
                     </button>
                     <button type="reset" id="resetBtn" class="btn-secondary">
                         <i class="fa-solid fa-rotate-right"></i> Nhập lại
@@ -79,10 +79,10 @@
             </form>
         </main>
 
-        <!-- Phần Hiển Thị Kết Quả -->
+        <!-- Phần Hiển Thị Kết Quả Chi Tiết Cá Nhân -->
         <section id="resultSection" class="card-box result-card hidden">
             <div class="result-title">
-                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Tổng Kết</h2>
+                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Vừa Tính</h2>
                 <span id="resNameBadge" class="badge-name"></span>
             </div>
 
@@ -95,26 +95,11 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Giải tích 1</td>
-                            <td id="resSubj1">0</td>
-                        </tr>
-                        <tr>
-                            <td>Đại số tuyến tính</td>
-                            <td id="resSubj2">0</td>
-                        </tr>
-                        <tr>
-                            <td>Xác suất thống kê</td>
-                            <td id="resSubj3">0</td>
-                        </tr>
-                        <tr>
-                            <td>Tin học đại cương</td>
-                            <td id="resSubj4">0</td>
-                        </tr>
-                        <tr>
-                            <td>Xây dựng ứng dụng Web</td>
-                            <td id="resSubj5">0</td>
-                        </tr>
+                        <tr><td>Giải tích 1</td><td id="resSubj1">0</td></tr>
+                        <tr><td>Đại số tuyến tính</td><td id="resSubj2">0</td></tr>
+                        <tr><td>Xác suất thống kê</td><td id="resSubj3">0</td></tr>
+                        <tr><td>Tin học đại cương</td><td id="resSubj4">0</td></tr>
+                        <tr><td>Xây dựng ứng dụng Web</td><td id="resSubj5">0</td></tr>
                     </tbody>
                 </table>
             </div>
@@ -128,6 +113,36 @@
                     <span class="sum-title">Xếp Loại Học Tập</span>
                     <span id="resClassify" class="sum-content">-</span>
                 </div>
+            </div>
+        </section>
+
+        <!-- CHỨC NĂNG NÂNG CAO: BẢNG DANH SÁCH TỔNG HỢP -->
+        <section class="card-box result-card">
+            <div class="result-title">
+                <h2>
+                    <i class="fa-solid fa-users-rectangle"></i> 
+                    Danh Sách Sinh Viên (<span id="totalStudentsCount">0</span>)
+                </h2>
+                <button type="button" id="deleteAllBtn" class="btn-danger-sm hidden">
+                    <i class="fa-solid fa-trash-can"></i> Xóa tất cả
+                </button>
+            </div>
+
+            <div class="table-container table-responsive">
+                <table class="result-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50px;">STT</th>
+                            <th>Họ & Tên</th>
+                            <th style="text-align: center;">ĐTB</th>
+                            <th style="text-align: center;">Xếp Loại</th>
+                            <th style="text-align: center; width: 100px;">Thao Tác</th>
+                        </tr>
+                    </thead>
+                    <tbody id="studentTableBody">
+                        <!-- Nội dung danh sách sẽ được JS chèn vào đây -->
+                    </tbody>
+                </table>
             </div>
         </section>
     </div>
