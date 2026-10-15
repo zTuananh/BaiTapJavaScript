@@ -1,6 +1,14 @@
-// Dữ liệu danh sách sinh viên từ LocalStorage
+// LocalStorage Management (Chức năng 1)
 let studentList = JSON.parse(localStorage.getItem('STUDENT_LIST_DATA')) || [];
 let editingIndex = -1;
+
+const SUBJECT_NAMES = [
+    "Giải tích 1",
+    "Đại số tuyến tính",
+    "Xác suất thống kê",
+    "Tin học đại cương",
+    "Xây dựng ứng dụng Web"
+];
 
 /**
  * 1. HÀM TÍNH ĐIỂM TRUNG BÌNH THANG 10
@@ -22,24 +30,42 @@ function classify(avg) {
 }
 
 /**
- * NHÓM CHỨC NĂNG 3: Quy đổi sang thang 4, điểm chữ và xét duyệt
+ * 3. HÀM QUY ĐỔI ĐIỂM SỐ SANG THANG CHỮ & THANG 4 (ĐỦ 8 MỨC CHUẨN)
+ * Quy tắc:
+ * 8.5 - 10.0 -> A  (4.0)
+ * 8.0 - 8.4  -> B+ (3.5)
+ * 7.0 - 7.9  -> B  (3.0)
+ * 6.5 - 6.9  -> C+ (2.5)
+ * 5.5 - 6.4  -> C  (2.0)
+ * 5.0 - 5.4  -> D+ (1.5)
+ * 4.0 - 4.9  -> D  (1.0)
+ * < 4.0      -> F  (0.0)
  */
-function convertScaleAndEvaluate(avg, scores) {
-    let gpa = 0.0;
-    let letter = "F";
+function convertScale(score) {
+    if (score >= 8.5) return { letter: "A",  gpa: 4.0 };
+    if (score >= 8.0) return { letter: "B+", gpa: 3.5 };
+    if (score >= 7.0) return { letter: "B",  gpa: 3.0 };
+    if (score >= 6.5) return { letter: "C+", gpa: 2.5 };
+    if (score >= 5.5) return { letter: "C",  gpa: 2.0 };
+    if (score >= 5.0) return { letter: "D+", gpa: 1.5 };
+    if (score >= 4.0) return { letter: "D",  gpa: 1.0 };
+    return { letter: "F", gpa: 0.0 };
+}
 
-    if (avg >= 8.5) { gpa = 4.0; letter = "A"; }
-    else if (avg >= 7.0) { gpa = 3.0; letter = "B"; }
-    else if (avg >= 5.5) { gpa = 2.0; letter = "C"; }
-    else if (avg >= 4.0) { gpa = 1.0; letter = "D"; }
-    else { gpa = 0.0; letter = "F"; }
+/**
+ * XÉT DUYỆT HỌC BỔNG & CẢNH BÁO HỌC TẬP (Chức năng 3)
+ * - Học bổng: ĐTB >= 8.5 VÀ không môn nào < 6.5
+ * - Cảnh báo: ĐTB < 5.0 HOẶC có môn liệt < 3.0
+ */
+function evaluateAcademic(avg, scores) {
+    const overallScale = convertScale(avg);
+    const hasFailedSubject = scores.some(s => s < 3.0);
+    const allSubjectsAbove65 = scores.every(s => s >= 6.5);
 
-    // Kiểm tra điều kiện Học bổng / Cảnh cáo
-    let hasFailedSubject = scores.some(s => s < 3.0); // Điểm dưới 3.0 coi như bị liệt
     let status = "Đạt";
     let statusClass = "status-pass";
 
-    if (avg >= 8.5 && scores.every(s => s >= 6.5)) {
+    if (avg >= 8.5 && allSubjectsAbove65) {
         status = "Học Bổng 🌟";
         statusClass = "status-scholarship";
     } else if (avg < 5.0 || hasFailedSubject) {
@@ -47,16 +73,21 @@ function convertScaleAndEvaluate(avg, scores) {
         statusClass = "status-warning";
     }
 
-    return { gpa, letter, status, statusClass };
+    return {
+        gpa: overallScale.gpa,
+        letter: overallScale.letter,
+        status: status,
+        statusClass: statusClass
+    };
 }
 
-// Khởi chạy khi tải trang xong
+// Khởi tạo ứng dụng
 document.addEventListener('DOMContentLoaded', () => {
     renderStudentTable();
     initFilterEvents();
 });
 
-// Xử lý khi bấm nút "Tính & Lưu kết quả"
+// Xử lý sự kiện "Tính kết quả"
 document.getElementById('calcBtn').addEventListener('click', function() {
     const studentName = document.getElementById('studentName').value.trim();
     const s1 = document.getElementById('subj1').value;
@@ -90,7 +121,7 @@ document.getElementById('calcBtn').addEventListener('click', function() {
         } else {
             let num = parseFloat(item.val);
             if (isNaN(num) || num < 0 || num > 10) {
-                document.getElementById(item.errId).innerText = "Điểm hợp lệ từ 0 đến 10!";
+                document.getElementById(item.errId).innerText = "Điểm phải từ 0 đến 10!";
                 isValid = false;
             } else {
                 scores.push(num);
@@ -101,11 +132,23 @@ document.getElementById('calcBtn').addEventListener('click', function() {
     if (isValid) {
         const avg = calculateAverage(scores);
         const rank = classify(avg);
-        const evalData = convertScaleAndEvaluate(avg, scores);
+        const evalData = evaluateAcademic(avg, scores);
+
+        // Quy đổi điểm 5 môn học
+        const subjectDetails = scores.map((score, idx) => {
+            const scale = convertScale(score);
+            return {
+                subject: SUBJECT_NAMES[idx],
+                score10: score,
+                letter: scale.letter,
+                gpa: scale.gpa
+            };
+        });
 
         const studentData = {
             name: studentName,
             scores: scores,
+            subjectDetails: subjectDetails,
             avg: avg,
             rank: rank,
             gpa: evalData.gpa,
@@ -119,7 +162,7 @@ document.getElementById('calcBtn').addEventListener('click', function() {
         } else {
             studentList[editingIndex] = studentData;
             editingIndex = -1;
-            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính kết quả`;
         }
 
         saveToLocalStorage();
@@ -132,12 +175,21 @@ document.getElementById('calcBtn').addEventListener('click', function() {
 // Hiển thị kết quả cá nhân
 function displaySingleResult(sv) {
     document.getElementById('resNameBadge').innerText = sv.name;
-    document.getElementById('resSubj1').innerText = sv.scores[0];
-    document.getElementById('resSubj2').innerText = sv.scores[1];
-    document.getElementById('resSubj3').innerText = sv.scores[2];
-    document.getElementById('resSubj4').innerText = sv.scores[3];
-    document.getElementById('resSubj5').innerText = sv.scores[4];
-    
+    const tbody = document.getElementById('singleResultTbody');
+    tbody.innerHTML = '';
+
+    sv.subjectDetails.forEach((detail, idx) => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+            <td>${idx + 1}</td>
+            <td>${detail.subject}</td>
+            <td style="text-align: center;"><strong>${detail.score10}</strong></td>
+            <td style="text-align: center;"><span class="badge-letter">${detail.letter}</span></td>
+            <td style="text-align: center;">${detail.gpa.toFixed(1)}</td>
+        `;
+        tbody.appendChild(tr);
+    });
+
     document.getElementById('resAvg').innerText = sv.avg.toFixed(2);
     document.getElementById('resGpa').innerText = `${sv.gpa.toFixed(1)} (${sv.letter})`;
 
@@ -157,21 +209,19 @@ function displaySingleResult(sv) {
 }
 
 /**
- * NHÓM CHỨC NĂNG 5: Tìm kiếm, Lọc & Sắp xếp dữ liệu
+ * 5. TÌM KIẾM, LỌC & SẮP XẾP
  */
 function getFilteredAndSortedStudents() {
     const keyword = document.getElementById('searchInput').value.toLowerCase().trim();
     const selectedRank = document.getElementById('filterRank').value;
     const sortBy = document.getElementById('sortBy').value;
 
-    // 1. Lọc theo tìm kiếm và xếp loại
     let result = studentList.filter(sv => {
         const matchesName = sv.name.toLowerCase().includes(keyword);
         const matchesRank = (selectedRank === 'ALL') || (sv.rank === selectedRank);
         return matchesName && matchesRank;
     });
 
-    // 2. Sắp xếp
     if (sortBy === 'avg-desc') {
         result.sort((a, b) => b.avg - a.avg);
     } else if (sortBy === 'avg-asc') {
@@ -189,7 +239,7 @@ function initFilterEvents() {
     document.getElementById('sortBy').addEventListener('change', renderStudentTable);
 }
 
-// Render bảng danh sách sinh viên
+// Render Bảng Danh Sách Sinh Viên
 function renderStudentTable() {
     const tbody = document.getElementById('studentTableBody');
     const totalCount = document.getElementById('totalStudentsCount');
@@ -205,7 +255,7 @@ function renderStudentTable() {
             <tr>
                 <td colspan="7" style="text-align: center; color: var(--text-muted); padding: 20px;">
                     <i class="fa-regular fa-folder-open" style="font-size: 24px; margin-bottom: 8px; display: block;"></i>
-                    Không tìm thấy dữ liệu sinh viên phù hợp.
+                    Chưa có dữ liệu sinh viên phù hợp.
                 </td>
             </tr>`;
         if (studentList.length === 0) deleteAllBtn.classList.add('hidden');
@@ -215,7 +265,6 @@ function renderStudentTable() {
     if (studentList.length > 0) deleteAllBtn.classList.remove('hidden');
 
     displayList.forEach((sv, index) => {
-        // Tìm chỉ số gốc trong studentList để sửa/xóa đúng
         const originalIndex = studentList.indexOf(sv);
         const tr = document.createElement('tr');
 
@@ -229,7 +278,7 @@ function renderStudentTable() {
             <td><strong>${sv.name}</strong></td>
             <td style="text-align: center;"><strong>${sv.avg.toFixed(2)}</strong></td>
             <td style="text-align: center;">${sv.gpa.toFixed(1)} (${sv.letter})</td>
-            <td style="text-align: center;"><span class="${tagClass}" style="font-weight:700">${sv.rank}</span></td>
+            <td style="text-align: center;"><span class="${tagClass}">${sv.rank}</span></td>
             <td style="text-align: center;"><span class="${sv.statusClass}">${sv.status}</span></td>
             <td style="text-align: center;" class="no-print">
                 <div class="action-btns">
@@ -246,7 +295,7 @@ function renderStudentTable() {
     });
 }
 
-// Sửa sinh viên
+// Thao tác Sửa dữ liệu
 function editStudent(originalIndex) {
     const sv = studentList[originalIndex];
     document.getElementById('studentName').value = sv.name;
@@ -262,7 +311,7 @@ function editStudent(originalIndex) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
 }
 
-// Xóa sinh viên
+// Thao tác Xóa 1 sinh viên
 function deleteStudent(originalIndex) {
     if (confirm(`Bạn có chắc muốn xóa sinh viên "${studentList[originalIndex].name}"?`)) {
         studentList.splice(originalIndex, 1);
@@ -271,14 +320,14 @@ function deleteStudent(originalIndex) {
         if (editingIndex === originalIndex) {
             resetFormInputs();
             editingIndex = -1;
-            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+            document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính kết quả`;
         }
     }
 }
 
-// Xóa tất cả
+// Thao tác Xóa toàn bộ
 document.getElementById('deleteAllBtn').addEventListener('click', function() {
-    if (confirm("⚠️ BẠN CÓ CHẮC CHẮN MUỐN XÓA TOÀN BỘ DANH SÁCH SINH VIÊN?")) {
+    if (confirm("⚠️ Bạn có chắc chắn muốn xóa tất cả sinh viên?")) {
         studentList = [];
         localStorage.removeItem('STUDENT_LIST_DATA');
         renderStudentTable();
@@ -288,16 +337,16 @@ document.getElementById('deleteAllBtn').addEventListener('click', function() {
 });
 
 /**
- * NHÓM CHỨC NĂNG 4: Xuất file Excel (CSV) & In ấn
+ * 4. BÁO CÁO & XUẤT DỮ LIỆU
  */
-// Xuất file CSV hỗ trợ tiếng Việt UTF-8
+// Xuất Excel CSV UTF-8
 document.getElementById('exportCsvBtn').addEventListener('click', function() {
     if (studentList.length === 0) {
         alert("Danh sách trống! Không thể xuất file.");
         return;
     }
 
-    let csvContent = "\uFEFF"; // Ký tự BOM để Excel đọc tiếng Việt không bị lỗi font
+    let csvContent = "\uFEFF"; // Ký tự BOM chống lỗi font tiếng Việt trong Excel
     csvContent += "STT,Họ và tên,Giải tích 1,Đại số tuyến tính,Xác suất thống kê,Tin học đại cương,Xây dựng ứng dụng Web,ĐTB Thang 10,ĐTB Thang 4,Điểm chữ,Xếp loại,Trạng thái\n";
 
     studentList.forEach((sv, idx) => {
@@ -328,7 +377,7 @@ document.getElementById('exportCsvBtn').addEventListener('click', function() {
     document.body.removeChild(link);
 });
 
-// Chức năng In báo cáo (Print PDF)
+// In phiếu điểm / Print PDF
 document.getElementById('printBtn').addEventListener('click', function() {
     if (studentList.length === 0) {
         alert("Danh sách sinh viên đang trống!");
@@ -342,11 +391,11 @@ document.getElementById('resetBtn').addEventListener('click', function() {
     resetFormInputs();
     clearErrorMessages();
     editingIndex = -1;
-    document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả`;
+    document.getElementById('calcBtn').innerHTML = `<i class="fa-solid fa-calculator"></i> Tính kết quả`;
     document.getElementById('resultSection').classList.add('hidden');
 });
 
-// Hàm tiện ích
+// Helper Functions
 function saveToLocalStorage() {
     localStorage.setItem('STUDENT_LIST_DATA', JSON.stringify(studentList));
 }
