@@ -7,27 +7,25 @@
     <!-- Google Fonts & FontAwesome Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- CSS riêng -->
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Nền trang trí -->
     <div class="bg-blur shape-1"></div>
     <div class="bg-blur shape-2"></div>
 
     <div class="app-container">
-        <!-- Header chính -->
+        <!-- Header -->
         <header class="app-header">
             <div class="logo-box">
                 <i class="fa-solid fa-graduation-cap"></i>
             </div>
             <div>
                 <h1>Quản Lý Điểm Sinh Viên</h1>
-                <p>Tính điểm, quy đổi thang GPA 4.0, xét duyệt học bổng & báo cáo</p>
+                <p>Tính điểm, quy đổi thang GPA 4.0 / Điểm chữ, xét học bổng & báo cáo</p>
             </div>
         </header>
 
-        <!-- Form Nhập Liệu (Không in ra khi bấm Print) -->
+        <!-- Form Nhập Liệu (Chức năng 1) -->
         <main class="card-box no-print">
             <form id="scoreForm" novalidate>
                 <div class="form-group full-row">
@@ -38,31 +36,31 @@
 
                 <div class="subjects-grid">
                     <div class="form-group">
-                        <label for="subj1"><i class="fa-solid fa-calculator"></i> Giải tích 1</label>
+                        <label for="subj1"><i class="fa-solid fa-calculator"></i> 1. Giải tích 1</label>
                         <input type="number" step="0.1" min="0" max="10" id="subj1" placeholder="0 - 10">
                         <span class="error-text" id="subj1Error"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="subj2"><i class="fa-solid fa-square-root-variable"></i> Đại số tuyến tính</label>
+                        <label for="subj2"><i class="fa-solid fa-square-root-variable"></i> 2. Đại số tuyến tính</label>
                         <input type="number" step="0.1" min="0" max="10" id="subj2" placeholder="0 - 10">
                         <span class="error-text" id="subj2Error"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="subj3"><i class="fa-solid fa-chart-pie"></i> Xác suất thống kê</label>
+                        <label for="subj3"><i class="fa-solid fa-chart-pie"></i> 3. Xác suất thống kê</label>
                         <input type="number" step="0.1" min="0" max="10" id="subj3" placeholder="0 - 10">
                         <span class="error-text" id="subj3Error"></span>
                     </div>
 
                     <div class="form-group">
-                        <label for="subj4"><i class="fa-solid fa-laptop-code"></i> Tin học đại cương</label>
+                        <label for="subj4"><i class="fa-solid fa-laptop-code"></i> 4. Tin học đại cương</label>
                         <input type="number" step="0.1" min="0" max="10" id="subj4" placeholder="0 - 10">
                         <span class="error-text" id="subj4Error"></span>
                     </div>
 
                     <div class="form-group full-row">
-                        <label for="subj5"><i class="fa-solid fa-globe"></i> Xây dựng ứng dụng Web</label>
+                        <label for="subj5"><i class="fa-solid fa-globe"></i> 5. Xây dựng ứng dụng Web</label>
                         <input type="number" step="0.1" min="0" max="10" id="subj5" placeholder="0 - 10">
                         <span class="error-text" id="subj5Error"></span>
                     </div>
@@ -70,7 +68,7 @@
 
                 <div class="button-group">
                     <button type="button" id="calcBtn" class="btn-primary">
-                        <i class="fa-solid fa-calculator"></i> Tính & Lưu kết quả
+                        <i class="fa-solid fa-calculator"></i> Tính kết quả
                     </button>
                     <button type="reset" id="resetBtn" class="btn-secondary">
                         <i class="fa-solid fa-rotate-right"></i> Nhập lại
@@ -79,10 +77,10 @@
             </form>
         </main>
 
-        <!-- Hiển Thị Kết Quả Cá Nhân Vừa Tính (Không in) -->
+        <!-- Hiển Thị Kết Quả Tính Toán Cá Nhân (Chức năng 3) -->
         <section id="resultSection" class="card-box result-card hidden no-print">
             <div class="result-title">
-                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Tổng Kết Cá Nhân</h2>
+                <h2><i class="fa-solid fa-square-poll-vertical"></i> Kết Quả Tổng Kết Chi Tiết</h2>
                 <span id="resNameBadge" class="badge-name"></span>
             </div>
 
@@ -90,28 +88,26 @@
                 <table class="result-table">
                     <thead>
                         <tr>
+                            <th>STT</th>
                             <th>Môn Học</th>
-                            <th>Điểm Thang 10</th>
+                            <th style="text-align: center;">Thang 10</th>
+                            <th style="text-align: center;">Thang Chữ</th>
+                            <th style="text-align: center;">Thang 4</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr><td>Giải tích 1</td><td id="resSubj1">0</td></tr>
-                        <tr><td>Đại số tuyến tính</td><td id="resSubj2">0</td></tr>
-                        <tr><td>Xác suất thống kê</td><td id="resSubj3">0</td></tr>
-                        <tr><td>Tin học đại cương</td><td id="resSubj4">0</td></tr>
-                        <tr><td>Xây dựng ứng dụng Web</td><td id="resSubj5">0</td></tr>
+                    <tbody id="singleResultTbody">
+                        <!-- JS Render chi tiết từng môn -->
                     </tbody>
                 </table>
             </div>
 
-            <!-- Nhóm 3: Quy đổi thang điểm & Xét duyệt -->
             <div class="summary-grid summary-grid-4">
                 <div class="sum-box">
                     <span class="sum-title">ĐTB Thang 10</span>
                     <span id="resAvg" class="sum-content">0.00</span>
                 </div>
                 <div class="sum-box">
-                    <span class="sum-title">GPA (Thang 4 / Điểm chữ)</span>
+                    <span class="sum-title">GPA (Thang 4 / Chữ)</span>
                     <span id="resGpa" class="sum-content">0.00 (F)</span>
                 </div>
                 <div class="sum-box">
@@ -125,32 +121,32 @@
             </div>
         </section>
 
-        <!-- BẢNG DANH SÁCH SINH VIÊN TỔNG HỢP -->
+        <!-- Bảng Quản Lý Danh Sách Sinh Viên Tổng Hợp (Chức năng 1, 4, 5) -->
         <section class="card-box print-area">
             <div class="result-title">
                 <h2>
                     <i class="fa-solid fa-users-rectangle"></i> 
                     Danh Sách Sinh Viên (<span id="totalStudentsCount">0</span>)
                 </h2>
-                <!-- Nhóm 4: Nút xuất báo cáo và in -->
+                <!-- Chức năng 4: Export CSV & Print PDF -->
                 <div class="header-actions no-print">
-                    <button type="button" id="exportCsvBtn" class="btn-success-sm" title="Xuất file Excel CSV">
+                    <button type="button" id="exportCsvBtn" class="btn-success-sm" title="Xuất file CSV/Excel">
                         <i class="fa-solid fa-file-excel"></i> Xuất CSV
                     </button>
-                    <button type="button" id="printBtn" class="btn-info-sm" title="In báo cáo">
-                        <i class="fa-solid fa-print"></i> In báo cáo
+                    <button type="button" id="printBtn" class="btn-info-sm" title="In phiếu điểm / PDF">
+                        <i class="fa-solid fa-print"></i> In Phiếu Điểm
                     </button>
-                    <button type="button" id="deleteAllBtn" class="btn-danger-sm hidden" title="Xóa tất cả">
+                    <button type="button" id="deleteAllBtn" class="btn-danger-sm hidden" title="Xóa toàn bộ danh sách">
                         <i class="fa-solid fa-trash-can"></i> Xóa tất cả
                     </button>
                 </div>
             </div>
 
-            <!-- Nhóm 5: Thanh Tìm Kiếm, Lọc & Sắp Xếp -->
+            <!-- Chức năng 5: Search, Filter & Sort -->
             <div class="filter-bar no-print">
                 <div class="search-box">
                     <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="searchInput" placeholder="Tìm theo tên sinh viên...">
+                    <input type="text" id="searchInput" placeholder="Tìm kiếm theo tên sinh viên...">
                 </div>
 
                 <div class="select-box">
@@ -179,7 +175,7 @@
                         <tr>
                             <th style="width: 45px;">STT</th>
                             <th>Họ & Tên</th>
-                            <th style="text-align: center;">Thang 10</th>
+                            <th style="text-align: center;">ĐTB Thang 10</th>
                             <th style="text-align: center;">Thang 4</th>
                             <th style="text-align: center;">Xếp Loại</th>
                             <th style="text-align: center;">Trạng Thái</th>
@@ -187,14 +183,12 @@
                         </tr>
                     </thead>
                     <tbody id="studentTableBody">
-                        <!-- JS tự động tải dữ liệu vào đây -->
                     </tbody>
                 </table>
             </div>
         </section>
     </div>
 
-    <!-- JS riêng -->
     <script src="script.js"></script>
 </body>
 </html>
